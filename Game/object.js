@@ -47,6 +47,11 @@ class Bob {
 
     update(){
         this.x++;
+        if(Input[' '])
+        {
+            this.scaleX++;
+            this.scaleY++;
+        }
     }
 
 }

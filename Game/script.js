@@ -9,7 +9,7 @@ var Input={};
 function start() {
     list.push(new Obstacle(10,7));
     list.push(new Bob(40,70));
-    Input = {"w":false,"a":false,"s":false,"d":false,"up":false,"left":false,"down":false,"right":false}
+    Input = {"w":false,"a":false,"s":false,"d":false,"up":false,"left":false,"down":false,"right":false, " ":false}
 
     MainLoop();
 }
@@ -31,15 +31,9 @@ window.addEventListener( "keyup", keyPressedUP, true);
 
 function keyPressedDOWN(event) {
     var key = event.key;
-     Input[key] = true;
+    Input[key] = true;
 }
 function keyPressedUP(event) {
     var key = event.key;
     Input[key] = false;
 }
-// switch (key) {
-//     case "s":list[0].y+=4;break;
-//     case "a":list[0].x-=4;break;
-//     case "d":list[0].x+=4;break;
-//     case "w":list[0].y-=4;break;
-//     default:break;}
