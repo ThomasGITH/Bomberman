@@ -9,26 +9,36 @@ class Obstacle {
         this.context = c;
         this.texture = new Image();
         this.texture.src = 'images/Avatar.png';
-
     }
 
     update(){
+        var xPrevious = this.x;
+        var yPrevious = this.y;
+
         if(Input['w'])
         {
-            this.y--;
+            this.y-=3;
         }
-        else if(Input['a'])
+        if(Input['a'])
         {
-            this.x--;
+            this.x-=3;
         }
-        else if(Input['s'])
+        if(Input['s'])
         {
-            this.y++;
+            this.y+=3;
         }
-        else if(Input['d'])
+        if(Input['d'])
         {
-            this.x++;
+            this.x+=3;
         }
+
+        if(hasCollided(this, Bob))
+        {
+            console.log(("collision"));
+            this.y = yPrevious;
+            this.x = xPrevious;
+        }
+
     }
 
 }
@@ -43,16 +53,16 @@ class Bob {
 
         this.texture = new Image();
         this.texture.src = 'images/icon2.png';
+
     }
 
     update(){
-        this.x++;
         if(Input[' '])
         {
             this.scaleX++;
             this.scaleY++;
         }
+
     }
 
 }
-

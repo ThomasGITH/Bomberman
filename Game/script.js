@@ -7,8 +7,10 @@ var list = [];
 var Input={};
 
 function start() {
-    list.push(new Obstacle(10,7));
-    list.push(new Bob(40,70));
+    list.push(new Obstacle(500,150));
+    list.push(new Bob(90,70));
+    list.push(new Bob(700,400));
+
     Input = {"w":false,"a":false,"s":false,"d":false,"up":false,"left":false,"down":false,"right":false, " ":false}
 
     MainLoop();
@@ -37,3 +39,24 @@ function keyPressedUP(event) {
     var key = event.key;
     Input[key] = false;
 }
+
+function hasCollided(objA, clsstype)
+{
+    var collision = false;
+    for(var i = 0; i < list.length; i++)
+    {
+        if(list[i] instanceof clsstype)
+        {
+            if(objA.x < list[i].x + list[i].scaleX &&
+                objA.x + objA.scaleX > list[i].x &&
+                objA.y < list[i].y + list[i].scaleY &&
+                objA.y + objA.scaleY > list[i].y)
+            {
+                collision = true;
+            }
+        }
+    }
+    return collision;
+}
+
+
