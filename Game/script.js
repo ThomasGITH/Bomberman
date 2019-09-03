@@ -3,13 +3,13 @@ const context = canvas.getContext('2d');
 canvas.width = window.innerWidth-800;
 canvas.height = window.innerHeight-100;
 
-var list = [];
+var entityList = [];
 var Input={};
 
 function start() {
-    list.push(new Obstacle(500,150));
-    list.push(new Bob(90,70));
-    list.push(new Bob(700,400));
+    entityList.push(new Obstacle(500,150));
+    entityList.push(new Bob(90,70));
+    entityList.push(new Bob(700,400));
 
     Input = {"w":false,"a":false,"s":false,"d":false,"up":false,"left":false,"down":false,"right":false, " ":false}
 
@@ -21,9 +21,9 @@ function MainLoop() {
 
     requestAnimationFrame(MainLoop);
 
-    for(i=0;i<list.length;i++){
-        list[i].update();
-        context.drawImage(list[i].texture,list[i].x,list[i].y, list[i].scaleX, list[i].scaleY);
+    for(i=0;i<entityList.length;i++){
+        entityList[i].update();
+        context.drawImage(entityList[i].texture,entityList[i].x,entityList[i].y, entityList[i].scaleX, entityList[i].scaleY);
     }
 }
 
@@ -43,14 +43,14 @@ function keyPressedUP(event) {
 function hasCollided(objA, clsstype)
 {
     var collision = false;
-    for(var i = 0; i < list.length; i++)
+    for(var i = 0; i < entityList.length; i++)
     {
-        if(list[i] instanceof clsstype)
+        if(entityList[i] instanceof clsstype)
         {
-            if(objA.x < list[i].x + list[i].scaleX &&
-                objA.x + objA.scaleX > list[i].x &&
-                objA.y < list[i].y + list[i].scaleY &&
-                objA.y + objA.scaleY > list[i].y)
+            if(objA.x < entityList[i].x + entityList[i].scaleX &&
+                objA.x + objA.scaleX > entityList[i].x &&
+                objA.y < entityList[i].y + entityList[i].scaleY &&
+                objA.y + objA.scaleY > entityList[i].y)
             {
                 collision = true;
             }
