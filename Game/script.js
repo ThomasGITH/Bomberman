@@ -64,6 +64,12 @@ function hasCollided(objA, clsstype)
     return collision;
 }
 
+function test()
+{
+    console.log("testberichtje");
+}
+
+
 Level1=[
     '002222222222200',
     '012121212121210',

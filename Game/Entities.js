@@ -10,6 +10,10 @@ class Player {
         this.texture.src = 'images/6player.png';
 
         this.timer = 0;
+        this.bombSet = false;
+
+        this.playerBombX = 0, this.playerBombY = 0;
+
     }
 
 
@@ -38,11 +42,9 @@ class Player {
 
         if(Input[' ']&& this.timer <= 0)
         {
-            var bombX = (Math.round(this.x / 75) * 75) + 37.5 - 17.5;
-            var bombY = (Math.round(this.y / 75) * 75) + 37.5 - 22.5;
+            entityList.push(new Bomb(this.x, this.y));
 
-            entityList.push(new Bomb(bombX, bombY));
-            this.timer = 300;
+            this.timer = 180;
         }
 
         if(hasCollided(this, Rock) || hasCollided(this, Wood) || this.x <= 0 || this.x + this.scaleX >= canvas.width || this.y <= 0 || this.y + this.scaleY >= canvas.height)
@@ -93,13 +95,9 @@ class Player2 {
 
         if(Input['Enter']&& this.timer <= 0)
         {
-            var bombX = (Math.round(this.x / 75) * 75) + 37.5 - 17.5;
-            var bombY = (Math.round(this.y / 75) * 75) + 37.5 - 22.5;
-            console.log(bombX);
-            console.log(bombY);
+            entityList.push(new Bomb(this.x, this.y));
 
-            entityList.push(new Bomb(bombX, bombY));
-            this.timer = 300;
+            this.timer = 180;
         }
 
         if(hasCollided(this, Rock) || hasCollided(this, Wood) || this.x <= 0 || this.x + this.scaleX >= canvas.width || this.y <= 0 || this.y + this.scaleY >= canvas.height)
@@ -153,8 +151,8 @@ class Wood {
 
 class Bomb {
     constructor(x,y){
-        this.x=x;
-        this.y=y;
+        this.x=(Math.round(x / 75) * 75) + 37.5 - 17.5;
+        this.y=(Math.round(y / 75) * 75) + 37.5 - 22.5;
 
         this.scaleX = 35;
         this.scaleY = 45;
@@ -162,11 +160,92 @@ class Bomb {
         this.texture = new Image();
         this.texture.src = 'images/9bomb.png';
 
+        this.timer = 180;
     }
 
+    Explosion()
+    {
+        var bX = (Math.round(this.x / 75) * 75) + 37.5;
+        var bY = (Math.round(this.y / 75) * 75) + 37.5;
+        console.log(bX);
+        console.log(bY);
+
+        //RIGHT WAY
+        var tileRight1X = bX + 75; var tileRight1Y = bY + 0;
+        var tileRight2X = bX + 150; var tileRight2Y = bY + 0;
+        if(findTile(Wood,tileRight1X, tileRight1Y) != 2)
+        {
+            console.log('removedddd');
+            if(findTile(Wood,tileRight2X, tileRight2Y) != 2)
+            {
+                console.log('removed2');
+            }
+        }
+
+        //LEFT WAY
+        var tileLeft1X = bX - 75; var tileLeft1Y = bY + 0;
+        var tileLeft2X = bX - 150; var tileLeft2Y = bY + 0;
+        if(findTile(Wood,tileLeft1X, tileLeft1Y) != 2)
+        {
+            console.log('removed');
+            if(findTile(Wood,tileLeft2X, tileLeft2Y) != 2)
+            {
+                console.log('removed2');
+            }
+        }
+
+        //DOWN WAY
+        var tileDown1X = bX + 0; var tileDown1Y = bY + 75;
+        var tileDown2X = bX + 0; var tileDown2Y = bY + 150;
+        if(findTile(Wood,tileDown1X, tileDown1Y) != 2)
+        {
+            console.log('removed');
+            if(findTile(Wood,tileDown2X, tileDown2Y) != 2)
+            {
+                console.log('removed2');
+            }
+        }
+
+        //UP WAY
+        var tileUp1X = bX + 0; var tileUp1Y = bY - 75;
+        var tileUp2X = bX + 0; var tileUp2Y = bY - 150;
+        if(findTile(Wood,tileUp1X, tileUp1Y) != 2)
+        {
+            console.log('removed');
+            if(findTile(Wood,tileUp2X, tileUp2Y) != 2)
+            {
+                console.log('removed2');
+            }
+        }
+
+        entityList.pop();
+    }
+
+
     update(){
-
-
+        this.timer--;
+        if(this.timer <= 0)
+        {
+            this.Explosion();
+        }
     }
 
 }
+
+function findTile(type, x, y)
+{
+    for(var i = 0; i < entityList.length; i++)
+    {
+        if(entityList[i] instanceof type && x >= entityList[i].x && x <= entityList[i].x + entityList[i].scaleX && y >= entityList[i].y && y <= entityList[i].y + entityList[i].scaleY)
+        {
+                entityList.splice(i,1);
+                return 0;
+          }
+          else if(entityList[i] instanceof Rock && x >= entityList[i].x && x <= entityList[i].x + entityList[i].scaleX && y >= entityList[i].y && y <= entityList[i].y + entityList[i].scaleY)
+          {
+             return 2;
+          }
+        }
+
+    return 1;
+    }
