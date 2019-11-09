@@ -1,4 +1,4 @@
-# Bomberman-Game-Project--80-s-Game-Jam
+# Bomberman
 Bomberman game made in two days using Javascript
 
 Made by Thomas Linssen & Abdelaziz Elbaze
